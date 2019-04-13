@@ -1,3 +1,4 @@
+var mysql = require('mysql');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,7 +7,28 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var app = express();
-const port = 1337;
+var config = require('./config.js');
+const port = config.server.port;
+
+//set database
+
+const db = mysql.createConnection({
+	host : config.database.host,
+	user : config.database.user,
+	password : config.database.pass,
+	database : config.database.database
+});
+
+
+db.connect(function(err){
+	if(err){
+		throw err;
+	}else{
+		console.log("Database is connected!");
+	}
+})
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
