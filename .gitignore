@@ -1,0 +1,5 @@
+#log disable
+*.log
+
+#Depedency
+node_modules/
