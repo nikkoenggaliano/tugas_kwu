@@ -11,7 +11,6 @@ var config = require('./config.js');
 const port = config.server.port;
 
 //set database
-
 const db = mysql.createConnection({
 	host : config.database.host,
 	user : config.database.user,
@@ -27,6 +26,8 @@ db.connect(function(err){
 		console.log("Database is connected!");
 	}
 })
+
+global.db = db;
 
 
 

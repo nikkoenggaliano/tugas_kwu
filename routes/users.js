@@ -8,6 +8,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/register', function(req,res,next){
 	console.log(req.body);
+	console.log(req.getConnection);
 	res.render('auth');
 });
 
