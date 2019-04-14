@@ -1,5 +1,5 @@
-const mysql = require('mysql')
-
+const mysql = require('mysql');
+const crypt = require('crypto');
 
 
 let config ={
@@ -7,10 +7,16 @@ let config ={
 		host : 'localhost',
 		user : 'root',
 		pass : '',
-		database : 'cal'
+		database : 'callestasia_playground'
 },
 server:{
 	port: 1337
+},
+
+secret: {
+	type: "aes-256-cbc",
+	key : "ItsSecretKeyYouCantSeeSoPleaseSt",
+	iv  : "IVitsSecretStttt"
 }
 	
 };
