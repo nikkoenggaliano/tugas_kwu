@@ -8,9 +8,9 @@
 </head>
 <body>
 
-	<%if(messages.info && messages.status){%>
+	<%if(messages.type && messages.message){%>
 		<script>
-			Swal.fire('Hello', '<%=messages.status%>', '<%=messages.info%>');
+			Swal.fire('Hello', '<%=messages.message%>', '<%=messages.type%>');
 		</script>
 		<%}%>
 
