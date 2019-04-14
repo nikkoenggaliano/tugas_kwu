@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+
 router.post('/register', function(req,res,next){
 	let email = req.body.email;
 	let user  = req.body.username;
@@ -24,8 +25,10 @@ router.post('/register', function(req,res,next){
 		console.log(result);
 		if(!err){
 			if(result.affectedRows == 1){
-				req.flash('status', "Success");
+				req.flash('info', 'success');
+				req.flash('status', 'Selamat Registrasi Berhasil');
 				res.redirect('/auth');
+
 			}
 		}
 	});
@@ -35,6 +38,12 @@ router.post('/register', function(req,res,next){
 router.post('/login', (req,res,next) => {
 	console.log(req.body);
 	res.render('auth');
+
+	// if(bcrypt.compareSync('somePassword', hash)) {
+ //     // Passwords match
+ //    } else {
+ //     // Passwords don't match
+ //    }
 });
 
 module.exports = router;

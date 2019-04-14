@@ -42,13 +42,14 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('nep'));
+
 app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
+  secret: 'nep',
+  resave: true,
   saveUninitialized: true,
-  cookie: { secure: true }
 }));
+
 app.use(flash());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
@@ -69,7 +70,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 app.listen(port, () => console.log("App listen in",port));
 
 module.exports = app;
