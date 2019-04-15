@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var flash   = require('express-flash');
 var logger = require('morgan');
+var csrf   = require('csurf');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var app = express();
@@ -48,9 +49,32 @@ app.use(session({
   secret: 'nep',
   resave: true,
   saveUninitialized: true,
+  cookie: { maxAge: 6000000 }
 }));
 
 app.use(flash());
+var csrfProtection = csrf({ cookie: true })
+
+app.use(csrf({ cookie: true }));
+
+app.get('*', function (req, res, next) {
+  res.locals.csrfToken = req.csrfToken()
+  next()
+});
+
+app.post('*', function (req, res, next) {
+  res.locals.csrfToken = req.csrfToken()
+  next()
+});
+
+app.use(function (err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+  // handle CSRF token errors here
+  res.status(403)
+  res.send('Error while process your system.');
+});
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

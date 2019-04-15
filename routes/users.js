@@ -94,8 +94,10 @@ router.post('/login', (req,res,next) => {
 		}
 		let dbpass = result[0].password;
 		if(bcrypt.compareSync(pass, dbpass)){
-			console.log('Success Login');
-			return false;
+			req.session.aid = result[0].id;
+			req.session.user = result[0].username;
+			res.redirect('/home');
+
 		}else{
 			req.flash('type', 'error');
 			req.flash('message', 'Email / Password Tidak ditemukan!');
@@ -105,11 +107,6 @@ router.post('/login', (req,res,next) => {
 		
 
 	});
-	// if(bcrypt.compareSync('somePassword', hash)) {
- //     // Passwords match
- //    } else {
- //     // Passwords don't match
- //    }
 });
 
 module.exports = router;
