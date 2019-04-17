@@ -16,10 +16,16 @@ router.get('/home', (req,res,next)=>{
 		res.redirect('/auth');
 		return false;
 	}
-	console.log(req.session.aid);
-	console.log(req.session.user);
-	res.render('home');
-})
+	let query = "SELECT * FROM `series`;";
+	db.query(query,(err,result,field)=>{
+		if(result.length){
+			res.render('home', {
+				title: "Callestasia Home",
+				categories:result
+			});		
+		}
+	});
+});
 
 
 router.get('/logout', (req,res,next)=>{
@@ -46,5 +52,27 @@ router.get('/admin/add-series', (req,res,next)=>{
 		}	
 	});
 	
-})
+});
+
+router.get('/admin/add-categories', (req,res,next)=>{
+	res.render('admin/add_categories');
+});
+
+router.get('/admin/add-post', (req,res,next)=>{
+	let query = "SELECT `id`,`judul` FROM `series`";
+	db.query(query,(err,result,field)=>{
+		if(result.length){
+			res.render('admin/add_post', {
+				categories:result
+			});
+		}else{
+			res.render('admin/add_post',{
+				categories:"Data not Available"
+			});
+		}
+	});
+	
+});
+
+
 module.exports = router;

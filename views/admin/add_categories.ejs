@@ -1,0 +1,49 @@
+<%- include template/header.ejs%>
+<script type="text/javascript">
+    function validform() {
+
+        var a = document.forms["my-form"]["judul"].value;
+        if (a==null || a=="")
+        {
+            alert("Please Enter Your Full Name");
+            return false;
+        }
+
+    }
+</script>
+<main class="page-content">
+    <div class="container-fluid">
+      <h2>Code Goes after here</h2>
+      <hr>
+      <main class="my-form">
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">Add Series Here</div>
+                        <div class="card-body">
+                            <form name="my-form" onsubmit="return validform()" action="/users/add_categories" method="POST">
+                                <div class="form-group row">
+                                    <label for="full_name" class="col-md-4 col-form-label text-md-right">Name Categories</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="full_name" class="form-control" name="judul">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+      </div>
+    </div>
+
+  </main>
+<%- include template/footer.ejs%>

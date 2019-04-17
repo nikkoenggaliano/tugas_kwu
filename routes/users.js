@@ -4,6 +4,20 @@ const bcrypt = require('bcrypt');
 const valid  = require('email-validator');
 
 
+// Parse Youtube id
+function YouTubeGetID(url){
+  var ID = '';
+  url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+  if(url[2] !== undefined) {
+    ID = url[2].split(/[^0-9a-z_\-]/i);
+    ID = ID[0];
+  }
+  else {
+    ID = url;
+  }
+    return ID;
+}
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -125,13 +139,65 @@ router.post('/add_series', (req,res,next)=>{
 			if(result.affectedRows == 1){
 
 				req.flash('type', 'success');
-				req.flash('message', 'Data Berhasil diinputkan');
+				req.flash('message', 'Series Berhasil ditambahakan.');
 				res.redirect('/admin/add-series');
 
 			}
 		}
 
  	});
+
+
+});
+
+
+router.post('/add_categories', (req,res,next)=>{
+	let name = req.body.judul;
+	let query = "INSERT INTO `categories` (`id`, `nama`) VALUES (NULL, ?);";
+	let data  = [name];
+
+	if(data.length <= 0){
+		req.flash('type', 'success');
+		req.flash('message', 'Categories Berhasil ditambahkan!');
+		res.redirect('/admin/add-categories');
+		return false;
+	}
+
+	db.query(query,data, (err,result,field) =>{
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'Categories Berhasil ditambahkan!');
+				res.redirect('/admin/add-categories');
+			}
+		}
+	});
+
+
+});
+
+
+router.post('/add_post', (req,res,next)=>{
+	let judul = req.body.judul;
+	let cat   = req.body.cat;
+	let tag   = req.body.tags;
+	let desc  = req.body.deskripsi;
+	let url   = req.body.url;
+	let yid   = YouTubeGetID(url);
+	let query = "INSERT INTO `post` (`id`, `sid`, `judul`, `tag`, `deskripsi`, `yid`, `url`) VALUES (NULL, ?, ?, ?, ?, ?, ?);";
+	let data  = [cat,judul,tag,desc,yid,url];
+	db.query(query,data,(err,result,field) => {
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'Post Berhasil ditambahkan!');
+				res.redirect('/admin/add-post');
+			}
+		}else{
+			console.log(err);
+			console.log(data);
+		}
+	});
 
 
 });
