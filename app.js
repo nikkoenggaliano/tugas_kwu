@@ -72,6 +72,7 @@ app.use(function (err, req, res, next) {
   // handle CSRF token errors here
   res.status(403)
   res.send('Error while process your system.');
+  res.send("We couldn't detect the token of csrf.")
 });
 
 

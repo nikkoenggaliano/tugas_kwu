@@ -27,4 +27,24 @@ router.get('/logout', (req,res,next)=>{
 	res.redirect('/auth');
 });
 
+
+router.get('/admin', (req,res,next)=>{
+	res.render('admin/home.ejs');
+});
+
+router.get('/admin/add-series', (req,res,next)=>{
+	let query = "SELECT * FROM `categories`";
+	db.query(query,(err,result,field)=>{
+		if(result.length){
+			res.render('admin/add_series', {
+				categories:result
+			});
+		}else{
+			res.render('admin/add_series',{
+				categories:"Data Not Available"
+			})
+		}	
+	});
+	
+})
 module.exports = router;

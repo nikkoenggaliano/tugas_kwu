@@ -109,4 +109,31 @@ router.post('/login', (req,res,next) => {
 	});
 });
 
+router.post('/add_series', (req,res,next)=>{
+ 	let judul = req.body.judul;
+ 	let cat   = req.body.cat;
+ 	let tag   = req.body.tags;
+ 	let desc  = req.body.deskripsi;
+
+ 	let query  = "INSERT INTO `series` (`id`, `cid`, `judul`, `tags`, `deskripsi`) VALUES (NULL, ?, ?, ?, ?);";
+ 	let data   = [cat,judul,tag,desc];
+ 	db.query(query,data, (err,result,field) =>{
+ 		console.log(err);
+ 		console.log(result);
+ 		console.log(field);
+ 		if(!err){
+			if(result.affectedRows == 1){
+
+				req.flash('type', 'success');
+				req.flash('message', 'Data Berhasil diinputkan');
+				res.redirect('/admin/add-series');
+
+			}
+		}
+
+ 	});
+
+
+});
+
 module.exports = router;

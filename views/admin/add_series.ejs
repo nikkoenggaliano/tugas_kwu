@@ -1,0 +1,93 @@
+<%- include template/header.ejs%>
+<script type="text/javascript">
+    function validform() {
+
+        var a = document.forms["my-form"]["judul"].value;
+        var b = document.forms["my-form"]["cat"].value;
+        var c = document.forms["my-form"]["tags"].value;
+        var d = document.forms["my-form"]["deskripsi"].value;
+
+        if (a==null || a=="")
+        {
+            alert("Please Enter Your Full Name");
+            return false;
+        }else if (b==null || b=="")
+        {
+            alert("Please Enter Your Email Address");
+            return false;
+        }else if (c==null || c=="")
+        {
+            alert("Please Enter Your Username");
+            return false;
+        }else if (d==null || d=="")
+        {
+            alert("Please Enter Your Permanent Address");
+            return false;
+        }
+
+    }
+</script>
+<main class="page-content">
+    <div class="container-fluid">
+      <h2>Code Goes after here</h2>
+      <hr>
+      <main class="my-form">
+    <div class="cotainer">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">Add Series Here</div>
+                        <div class="card-body">
+                            <form name="my-form" onsubmit="return validform()" action="/users/add_series" method="POST">
+                                <div class="form-group row">
+                                    <label for="full_name" class="col-md-4 col-form-label text-md-right">Judul Series</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="full_name" class="form-control" name="judul">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="email_address" class="col-md-4 col-form-label text-md-right">Select Categories</label>
+                                    <div class="col-md-6">
+                                        <select name="cat" class="form-control">
+                                            <%if(categories){%>
+                                            <%categories.forEach((data)=>{%>
+                                             <option value="<%= data.id%>"><%= data.nama %></option>   
+                                            <%}); }%>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="user_name" class="col-md-4 col-form-label text-md-right">Tags</label>
+                                    <div class="col-md-6">
+                                        <input type="text" id="user_name" class="form-control" name="tags" placeholder="Use (,) for separator.">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="phone_number" class="col-md-4 col-form-label text-md-right">Deskripsi</label>
+                                    <div class="col-md-6">
+                                        <textarea rows="5" name="deskripsi" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                                    <div class="col-md-6 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                        Submit
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+      </div>
+    </div>
+
+  </main>
+<%- include template/footer.ejs%>
