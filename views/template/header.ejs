@@ -39,8 +39,13 @@
                                     href="#" data-bs-hover-animate="swing">Javascript</a></div>
                         </li>
                         <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">Course</a>
-                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#" data-bs-hover-animate="swing">PHP</a><a class="dropdown-item" role="presentation" href="#" data-bs-hover-animate="swing">Python</a><a class="dropdown-item" role="presentation"
-                                    href="#" data-bs-hover-animate="swing">Javascript</a></div>
+                            <div class="dropdown-menu" role="menu">
+                                <%if(categories){ categories.forEach((data) => { %>
+
+                                    
+                                <a class="dropdown-item" role="presentation" href="<%= data.id %>" data-bs-hover-animate="swing"><%= data.nama%></a>
+                                <% }); }%>
+                            </div>
                         </li>
                         <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">Profile❤</a>
                             <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">My Profile</a><a class="dropdown-item" role="presentation" href="#">Change Password</a><a class="dropdown-item" role="presentation" href="/logout" data-bs-hover-animate="pulse">Logout ✗</a></div>
