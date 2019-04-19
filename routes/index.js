@@ -90,10 +90,10 @@ router.get('/series/(:id)', (req,res,next) =>{
 
 	let sid = req.params.id;
 	
-	// if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
-	// 	res.redirect('/auth');
-	// 	return false;
-	// }
+	if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
+		res.redirect('/auth');
+		return false;
+	}
 
 	var asbun = "";
 	let que = "SELECT * FROM `categories`;";;
