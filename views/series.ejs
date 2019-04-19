@@ -1,5 +1,6 @@
 <%- include template/header.ejs %>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -32,6 +33,60 @@ a{
 .fa{
      color:#4183D7;
 }
+
+#notfound {
+  position: relative;
+  height: 70vh;
+}
+
+#notfound .notfound {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.notfound {
+  max-width: 710px;
+  width: 100%;
+  text-align: center;
+  padding: 0px 15px;
+  line-height: 1.4;
+}
+
+.notfound .notfound-404 {
+  height: 200px;
+  line-height: 200px;
+}
+
+.notfound .notfound-404 h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 168px;
+  margin: 0px;
+  color: #ff508e;
+  text-transform: uppercase;
+}
+
+.notfound h2 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #222;
+  margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+  .notfound .notfound-404 {
+    height: 122px;
+    line-height: 122px;
+  }
+  .notfound .notfound-404 h1 {
+    font-size: 122px;
+  }
+}
 </style>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -52,7 +107,20 @@ a{
                         <a href="#">Learn More</a>                        
                      </div>
                 </div>   
-            <% }); }%>
+            <% }); } %>
+
+            <% if(isi.length == 0){ %>
+            <div id="notfound" class="col">
+                <div class="notfound">
+                    <div class="notfound-404">
+                        <h1>404</h1>
+                    </div>
+                    <h2>Oops, The Page you are looking for can't be found!</h2>
+                    <a href="#"><span class="arrow"></span>Return To Homepage</a>
+                </div>
+            </div>
+
+            <% } %>
                 
         </div>      
     </div>

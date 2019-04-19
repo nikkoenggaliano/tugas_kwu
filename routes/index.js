@@ -26,7 +26,7 @@ router.get('/home', (req,res,next)=>{
 		}
 	});
 
-	let query = "SELECT * FROM `series`;";
+	let query = "SELECT * FROM `series` ORDER BY `series`.`id` DESC LIMIT 7;";
 	db.query(query,(err,result,field)=>{
 		if(result.length){
 			res.render('home', {

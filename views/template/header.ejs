@@ -5,15 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title><%=title%></title>
+    <link rel="shortcut icon" href="/images/favicon.ico">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Aclonica">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Calligraffitti">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/js/script.min.js"></script>
     <style type="text/css">
         #footer {
             position: block;
@@ -28,7 +29,7 @@
 <body style="filter: grayscale(0%) saturate(179%);">
     <div>
         <nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background-color: rgb(228,225,225);color: rgb(0,0,0);">
-            <div class="container"><a class="navbar-brand" href="#" data-bs-hover-animate="rubberBand" style="font-family: Calligraffitti, cursive;font-size: 206;line-height: 19px;color: rgb(138,96,139);">Callestasia Playgorund</a><button class="navbar-toggler" data-toggle="collapse"
+            <div class="container"><a class="navbar-brand" href="/home" data-bs-hover-animate="rubberBand" style="font-family: Calligraffitti, cursive;font-size: 206;line-height: 19px;color: rgb(138,96,139);">Callestasia Playgorund</a><button class="navbar-toggler" data-toggle="collapse"
                     data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navcol-1">
                     <ul class="nav navbar-nav ml-auto">
@@ -43,7 +44,7 @@
                                 <%if(categories){ categories.forEach((data) => { %>
 
                                     
-                                <a class="dropdown-item" role="presentation" href="<%= data.id %>" data-bs-hover-animate="swing"><%= data.nama%></a>
+                                <a class="dropdown-item" role="presentation" href="/series/<%= data.id %>" data-bs-hover-animate="swing"><%= data.nama%></a>
                                 <% }); }%>
                             </div>
                         </li>
