@@ -85,6 +85,10 @@ router.get('/admin/add-post', (req,res,next)=>{
 	
 });
 
+router.get('/series', (req,res,next) =>{
+	res.redirect('/home');
+});
+
 
 router.get('/series/(:id)', (req,res,next) =>{
 
