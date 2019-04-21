@@ -90,29 +90,62 @@ router.get('/series/(:id)', (req,res,next) =>{
 
 	let sid = req.params.id;
 	
-	if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
-		res.redirect('/auth');
-		return false;
-	}
+	// if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
+	// 	res.redirect('/auth');
+	// 	return false;
+	// }
 
-	var asbun = "";
+	var cate = "";
 	let que = "SELECT * FROM `categories`;";;
 	db.query(que,(err,result,field) =>{
 		if(result.length){
-			asbun = result;
+			cate = result;
 		}
 	});
 
 	db.query("SELECT * FROM `series` WHERE `cid` = ?",sid,(err,result,field) =>{
-		console.log(result);
 			res.render('series', {
 			title: "Series",
-			categories:asbun,
-			isi:result
+			categories:cate,
+			isi:result,
 		});
 	});
 });
 
+
+router.get('/list-video/(:sid)', (req,res,next) =>{
+	let sid = req.params.sid;
+
+	var cate = "";
+	let que = "SELECT * FROM `categories`;";;
+	db.query(que,(err,result,field) =>{
+		if(result.length){
+			cate = result;
+		}
+	});
+
+
+	let query = "SELECT post.id, post.sid, post.judul, post.tag, post.deskripsi, post.yid, post.url, series.judul AS sjudul FROM post , series WHERE post.sid = series.id AND post.sid = ? ";
+	let data  = [sid];
+	var sjudul = ""
+	db.query(query,data, (err,result,field) =>{
+		console.log(result);
+		if(!err){
+			if(result.length != 0){
+				sjudul = result[0].sjudul;
+			}
+			res.render('listvideo', {
+				title: 'List Video',
+				categories: cate,
+				isi:result,
+				judul:sjudul
+			});
+		}
+	});
+
+
+
+});
 
 
 module.exports = router;

@@ -1,0 +1,152 @@
+<%- include template/header.ejs %>
+<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">
+<style type="text/css">
+	.theme{
+    font-size:18px;
+    text-align:center;
+    border-bottom:1px solid #ccc;
+    padding:10px 0px;
+    margin-bottom:10px;
+    background-color:#ffffff;
+}
+
+.media.media-video{
+    margin-bottom:10px;
+}
+.media.media-video .thumb{
+    position:relative;
+    width:250px;
+    margin-right:10px;
+    text-decoration:none;
+}
+.media.media-video .thumb img{
+    width:100%;
+}
+.media.media-video .thumb .duration{
+    position:absolute;
+    display:block;
+    bottom:5px;
+    right:5px;
+    color:#fff;
+    background-color:#000;
+    font-size:0.8rem;
+    padding:4px;
+    -webkit-transition:0.2s linear opacity;
+}
+.media.media-video .thumb:hover .duration{
+    opacity:0.3;
+}
+.media.media-video .media-body .media-heading{
+    font-size:1.2rem;
+    color:#454545;
+    text-decoration:none;
+}
+.media.media-video .media-body .media-heading:hover{
+    color:#000;
+}
+.media.media-video .media-body .meta{
+    color:#999;
+}
+.media.media-video .media-body .meta a{
+     color:#777;
+}
+.media.media-video .media-body .desc{
+     color:#999;
+}
+
+#notfound {
+  position: relative;
+  height: 70vh;
+}
+
+#notfound .notfound {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.notfound {
+  max-width: 710px;
+  width: 100%;
+  text-align: center;
+  padding: 0px 15px;
+  line-height: 1.4;
+}
+
+.notfound .notfound-404 {
+  height: 200px;
+  line-height: 200px;
+}
+
+.notfound .notfound-404 h1 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 168px;
+  margin: 0px;
+  color: #ff508e;
+  text-transform: uppercase;
+}
+
+.notfound h2 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: #222;
+  margin: 0;
+}
+
+@media only screen and (max-width: 767px) {
+  .notfound .notfound-404 {
+    height: 122px;
+    line-height: 122px;
+  }
+  .notfound .notfound-404 h1 {
+    font-size: 122px;
+  }
+}
+</style>
+<div class="container">
+        <div class="row">
+        <div class="col-md-12">
+        	<% if(isi.length == 0){ %>
+            <div class="theme">Maaf daftar video untuk list yang anda cari belum tersedia.</div>
+            <% }else { %>
+            <div class="theme">Berikut daftar video untuk series <b><%= judul %></b> </div>	
+            <% } %>
+        </div>
+    </div>
+	<div class="row videos">
+		<% if(isi){ isi.forEach((data) =>{ %>
+
+		<div class="col-md-12">
+		    <div class="media media-video">
+
+		        <div class="media-body">
+		            <a href="#" class="media-heading"><%= data.judul %></a>
+<!-- 		            <div class="meta"><a href="#" class="author">Nepska</a> • 808K views • 2 years ago</div> -->
+		            <div class="meta" class="author">Nikko Enggaliano</div>
+		            <div class="desc"><%= data.deskripsi %></div>
+		        </div>
+		    </div>
+		</div>
+		<% }); }%>
+
+		 <% if(isi.length == 0){ %>
+            <div id="notfound" class="col">
+                <div class="notfound">
+                    <div class="notfound-404">
+                        <h1>404</h1>
+                    </div>
+                    <h2>Oops, The Page you are looking for can't be found!</h2>
+                    <a href="#"><span class="arrow"></span>Return To Homepage</a>
+                </div>
+            </div>
+
+            <% } %>
+
+
+	</div>
+</div>

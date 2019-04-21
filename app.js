@@ -57,11 +57,12 @@ var csrfProtection = csrf({ cookie: true })
 
 app.use(csrf({ cookie: true }));
 
+//Handle csrf get
 app.get('*', function (req, res, next) {
   res.locals.csrfToken = req.csrfToken()
   next()
 });
-
+//Handle csrf post
 app.post('*', function (req, res, next) {
   res.locals.csrfToken = req.csrfToken()
   next()
