@@ -142,7 +142,8 @@ router.get('/list-video/(:sid)', (req,res,next) =>{
 				title: 'List Video',
 				categories: cate,
 				isi:result,
-				judul:sjudul
+				judul:sjudul,
+				sid:sid
 			});
 		}
 	});
@@ -150,6 +151,69 @@ router.get('/list-video/(:sid)', (req,res,next) =>{
 
 
 });
+
+
+router.get('/watch-video/(:sid)/(:id)', (req,res,next) =>{
+
+	let sid = parseInt(req.params.sid);
+	let id  = parseInt(req.params.id);
+	let arrid = [];
+
+	var cate = "";
+	let que = "SELECT * FROM `categories`;";;
+	db.query(que,(err,result,field) =>{
+		if(result.length){
+			cate = result;
+		}
+	});
+
+	let fque = "SELECT * FROM `post` WHERE `sid` = ?";
+	db.query(fque,sid,(err,result,field) => {
+		result.forEach((data) =>{
+			arrid.push(data.id);
+		});
+	});
+
+
+
+
+	let query = "SELECT * FROM `post` WHERE `sid` = ? AND `id` = ?";
+	db.query(query,[sid,id],(err,result,field) =>{
+		var before = "";
+		var after  = "";
+		console.log(arrid);
+		let total = arrid.length;
+		let posisi = arrid.indexOf(id);
+		console.log(total,posisi,id);
+		
+		if(posisi == -1){
+
+			res.redirect('/home');
+		}
+
+		if(posisi == 0 && posisi != -1){
+			before = "min";
+		}else{
+			before = arrid[posisi-1];
+		}
+
+		if(posisi+1 == total && posisi != -1){
+			after = "max";
+		}else{
+			after = arrid[posisi+1];
+		}
+
+		console.log(before,after);
+
+		res.render('watchvideo', {
+			title: "Watch Video",
+			categories:cate,
+			isi:result
+		});
+	});
+
+});
+
 
 
 module.exports = router;

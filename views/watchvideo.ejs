@@ -1,0 +1,134 @@
+<%- include template/header.ejs %>
+
+<style type="text/css">
+  @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+@import url(https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.3/css/mdb.min.css);
+
+.hm-gradient {
+    background-color: #eee;
+}
+.darken-grey-text {
+    color: #2E2E2E;
+
+}
+.myButton {
+  -moz-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+  -webkit-box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+  box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #fc8d83), color-stop(1, #e4685d));
+  background:-moz-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
+  background:-webkit-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
+  background:-o-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
+  background:-ms-linear-gradient(top, #fc8d83 5%, #e4685d 100%);
+  background:linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#fc8d83', endColorstr='#e4685d',GradientType=0);
+  background-color:#fc8d83;
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  border:1px solid #d83526;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Arial;
+  font-size:15px;
+  font-weight:bold;
+  padding:6px 24px;
+  text-decoration:none;
+  text-shadow:0px 1px 0px #b23e35;
+}
+.myButton:hover {
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e4685d), color-stop(1, #fc8d83));
+  background:-moz-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
+  background:-webkit-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
+  background:-o-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
+  background:-ms-linear-gradient(top, #e4685d 5%, #fc8d83 100%);
+  background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e4685d', endColorstr='#fc8d83',GradientType=0);
+  background-color:#e4685d;
+}
+.myButton:active {
+  position:relative;
+  top:1px;
+}
+
+</style>
+<body class="hm-gradient">
+    
+    <main>
+        <%= did %>
+        <!--MDB Video-->
+        <div class="container mt-4">
+
+<!--             <div class="text-center darken-grey-text mb-4">
+                <h1 class="font-bold mt-4 mb-3 h5">Built with Material Design for Bootstrap 4</h1>
+                <a class="btn btn-danger btn-md" href="https://mdbootstrap.com/material-design-for-bootstrap/" target="_blank">Free download<i class="fa fa-download pl-2"></i></a>
+            </div> -->
+
+            <!-- Grid row -->
+            <div class="row">
+            
+                <!-- Grid column -->
+                <div class="col-md-12 mb-4">
+            
+                    <div class="card">
+                        <div class="card-block p-3">
+                            <!--Title-->
+                            <h3 class="text-center font-up font-bold indigo-text py-2 mb-3"><strong>Judul Video</strong></h3>
+
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/vlDzYIIOYmM" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+                <!-- Grid column -->
+            
+            </div>
+            <!-- Grid row -->
+          
+            <!-- Grid row -->
+            <div class="row">
+            
+                <!-- Grid column -->
+                <div class="col-md-6 mb-4">
+            
+                  <a href="#" class="myButton"></a>
+            
+                </div>
+                <!-- Grid column -->
+            
+                <!-- Grid column -->
+                <div class="col-md-6 mb-4">
+            
+                    <div class="card">
+                        <div class="card-block p-3">
+                            <!--Title-->
+                            <h3 class="text-center font-up font-bold indigo-text py-2 mb-3"><strong>Vimeo Iframe</strong></h3>
+
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/137857207" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+                <!-- Grid column -->
+            
+            </div>
+            <!-- Grid row -->
+          
+            <hr class="my-4">
+          
+            <div class="text-center darken-grey-text mb-4">
+                <h3 class="font-bold mb-3">Here you can find more Video Components:</h3>
+                <a class="btn btn-danger" href="https://mdbootstrap.com/components/bootstrap-video/" target="_blank">Bootstrap Video</a>
+            </div>
+
+        </div>
+        <!--MDB Video-->
+      
+    </main>
+  
+</body>
