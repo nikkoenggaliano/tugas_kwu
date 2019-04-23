@@ -41,11 +41,10 @@
                         </li>
                         <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">Course</a>
                             <div class="dropdown-menu" role="menu">
-                                <%if(categories){ categories.forEach((data) => { %>
-
-                                    
-                                <a class="dropdown-item" role="presentation" href="/series/<%= data.id %>" data-bs-hover-animate="swing"><%= data.nama%></a>
-                                <% }); }%>
+							<a class="dropdown-item" role="presentation" href="/series/1" data-bs-hover-animate="swing">PHP</a>
+                            <a class="dropdown-item" role="presentation" href="/series/2" data-bs-hover-animate="swing">Python</a>
+                            <a class="dropdown-item" role="presentation" href="/series" data-bs-hover-animate="swing">See All Course</a>
+                                
                             </div>
                         </li>
                         <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">Profile❤</a>

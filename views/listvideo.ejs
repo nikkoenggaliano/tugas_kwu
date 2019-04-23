@@ -10,50 +10,6 @@
     background-color:#ffffff;
 }
 
-.media.media-video{
-    margin-bottom:10px;
-}
-.media.media-video .thumb{
-    position:relative;
-    width:250px;
-    margin-right:10px;
-    text-decoration:none;
-}
-.media.media-video .thumb img{
-    width:100%;
-}
-.media.media-video .thumb .duration{
-    position:absolute;
-    display:block;
-    bottom:5px;
-    right:5px;
-    color:#fff;
-    background-color:#000;
-    font-size:0.8rem;
-    padding:4px;
-    -webkit-transition:0.2s linear opacity;
-}
-.media.media-video .thumb:hover .duration{
-    opacity:0.3;
-}
-.media.media-video .media-body .media-heading{
-    font-size:1.2rem;
-    color:#454545;
-    text-decoration:none;
-}
-.media.media-video .media-body .media-heading:hover{
-    color:#000;
-}
-.media.media-video .media-body .meta{
-    color:#999;
-}
-.media.media-video .media-body .meta a{
-     color:#777;
-}
-.media.media-video .media-body .desc{
-     color:#999;
-}
-
 #notfound {
   position: relative;
   height: 70vh;
@@ -107,6 +63,24 @@
     font-size: 122px;
   }
 }
+
+.cards{
+    background: #e6e0e0;
+    position: relative;
+    border-radius: 13px;
+    padding: 0.25rem 1.5rem;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease-in;
+    margin: 0.5rem;
+    word-break: break-word;
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 </style>
 <div class="container">
         <div class="row">
@@ -124,9 +98,8 @@
 		<div class="col-md-12">
 		    <div class="media media-video">
 
-		        <div class="list-group-item">
-		            <a href="/watch-video/<%= data.sid %>/<%= data.id %>" class="media-heading"><%= data.judul %></a>
-		            <div class="meta" class="author"><i><%= data.tag %></i></div>
+		        <div class="cards is-link">
+		            <a href="/watch-video/<%= data.sid %>/<%= data.id %>" class="media-heading"><b><%= data.judul %></b></a>
 		            <div class="desc"><%= data.deskripsi %></div>
 		        </div>
 		    </div>

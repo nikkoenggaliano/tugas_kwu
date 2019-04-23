@@ -86,7 +86,13 @@ router.get('/admin/add-post', (req,res,next)=>{
 });
 
 router.get('/series', (req,res,next) =>{
-	res.redirect('/home');
+	let query = "SELECT (SELECT count(id) FROM series WHERE series.cid = categories.id) as Total, categories.* FROM categories";
+	db.query(query,(err,result,field) =>{
+		res.render('home_series',{
+			title: 'List Of Series',
+			isi: result
+		});	
+	});
 });
 
 
@@ -99,18 +105,9 @@ router.get('/series/(:id)', (req,res,next) =>{
 	// 	return false;
 	// }
 
-	var cate = "";
-	let que = "SELECT * FROM `categories`;";;
-	db.query(que,(err,result,field) =>{
-		if(result.length){
-			cate = result;
-		}
-	});
-
 	db.query("SELECT * FROM `series` WHERE `cid` = ?",sid,(err,result,field) =>{
 			res.render('series', {
 			title: "Series",
-			categories:cate,
 			isi:result,
 		});
 	});
@@ -119,15 +116,6 @@ router.get('/series/(:id)', (req,res,next) =>{
 
 router.get('/list-video/(:sid)', (req,res,next) =>{
 	let sid = req.params.sid;
-
-	var cate = "";
-	let que = "SELECT * FROM `categories`;";;
-	db.query(que,(err,result,field) =>{
-		if(result.length){
-			cate = result;
-		}
-	});
-
 
 	let query = "SELECT post.id, post.sid, post.judul, post.tag, post.deskripsi, post.yid, post.url, series.judul AS sjudul FROM post , series WHERE post.sid = series.id AND post.sid = ? ";
 	let data  = [sid];
@@ -140,7 +128,6 @@ router.get('/list-video/(:sid)', (req,res,next) =>{
 			}
 			res.render('listvideo', {
 				title: 'List Video',
-				categories: cate,
 				isi:result,
 				judul:sjudul,
 				sid:sid
@@ -159,15 +146,7 @@ router.get('/watch-video/(:sid)/(:id)', (req,res,next) =>{
 	let id  = parseInt(req.params.id);
 	let arrid = [];
 
-	var cate = "";
-	let que = "SELECT * FROM `categories`;";;
-	db.query(que,(err,result,field) =>{
-		if(result.length){
-			cate = result;
-		}
-	});
-
-	let fque = "SELECT * FROM `post` WHERE `sid` = ?";
+	let fque = "SELECT `id` FROM `post` WHERE `sid` = ?";
 	db.query(fque,sid,(err,result,field) => {
 		result.forEach((data) =>{
 			arrid.push(data.id);
@@ -179,18 +158,18 @@ router.get('/watch-video/(:sid)/(:id)', (req,res,next) =>{
 
 	let query = "SELECT * FROM `post` WHERE `sid` = ? AND `id` = ?";
 	db.query(query,[sid,id],(err,result,field) =>{
+		if(!err){
+			if(result.length){
 		var before = "";
 		var after  = "";
+		var judul  = result[0].judul;
+		var vid    = result[0].yid;
+		var desc   = result[0].deskripsi;
 		console.log(arrid);
 		let total = arrid.length;
 		let posisi = arrid.indexOf(id);
 		console.log(total,posisi,id);
 		
-		if(posisi == -1){
-
-			res.redirect('/home');
-		}
-
 		if(posisi == 0 && posisi != -1){
 			before = "min";
 		}else{
@@ -207,9 +186,26 @@ router.get('/watch-video/(:sid)/(:id)', (req,res,next) =>{
 
 		res.render('watchvideo', {
 			title: "Watch Video",
-			categories:cate,
-			isi:result
+			judul:judul,
+			video:vid,
+			min:before,
+			max:after,
+			desc:desc,
+			sid:sid
 		});
+		}else{
+			res.render('watchvideo', {
+			title: "Watch Video",
+			judul:"Maaf Video Tidak Ditemukan!",
+			video:"False",
+			min:"False",
+			max:"False",
+			desc:"Maaf Video Tidak Ditemukan!",
+			sid:"False"
+		});
+		}
+	}
+
 	});
 
 });

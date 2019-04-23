@@ -56,30 +56,24 @@
 <body class="hm-gradient">
     
     <main>
-        <%= did %>
         <!--MDB Video-->
         <div class="container mt-4">
 
-<!--             <div class="text-center darken-grey-text mb-4">
-                <h1 class="font-bold mt-4 mb-3 h5">Built with Material Design for Bootstrap 4</h1>
-                <a class="btn btn-danger btn-md" href="https://mdbootstrap.com/material-design-for-bootstrap/" target="_blank">Free download<i class="fa fa-download pl-2"></i></a>
-            </div> -->
-
-            <!-- Grid row -->
             <div class="row">
             
                 <!-- Grid column -->
                 <div class="col-md-12 mb-4">
-            
+
                     <div class="card">
                         <div class="card-block p-3">
-                            <!--Title-->
-                            <h3 class="text-center font-up font-bold indigo-text py-2 mb-3"><strong>Judul Video</strong></h3>
+                            <% if(judul.length != 0 && video.length != 0){ %>
+                            <h3 class="text-center font-bold py-2 mb-3" style="color: #2a1e35"> <strong><%=judul%></strong></h3>
 
                             <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/vlDzYIIOYmM" allowfullscreen></iframe>
+                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%=video%>" allowfullscreen></iframe>
                             </div>
                         </div>
+                    <% } %>
                     </div>
             
                 </div>
@@ -93,37 +87,33 @@
             
                 <!-- Grid column -->
                 <div class="col-md-6 mb-4">
-            
-                  <a href="#" class="myButton"></a>
-            
+                  <% if(typeof min != 'number') {%>
+                    <!-- <a class="myButton">Before</a> -->
+                  <% }else{%>
+                  <a href="/watch-video/<%=sid%>/<%= min %>" class="myButton">Before</a>
+                  <% } %>
                 </div>
                 <!-- Grid column -->
             
                 <!-- Grid column -->
                 <div class="col-md-6 mb-4">
-            
-                    <div class="card">
-                        <div class="card-block p-3">
-                            <!--Title-->
-                            <h3 class="text-center font-up font-bold indigo-text py-2 mb-3"><strong>Vimeo Iframe</strong></h3>
-
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item" src="https://player.vimeo.com/video/137857207" allowfullscreen></iframe>
-                            </div>
-                        </div>
-                    </div>
+                  <% if(typeof max != 'number'){ %>
+                  <!-- <a href="#" class="myButton" style="float: right;">Next</a> -->
+                  <% }else{ %>
+                    <a href="/watch-video/<%=sid%>/<%= max %>" class="myButton" style="float: right;">Next</a>
+                  <% } %>
             
                 </div>
                 <!-- Grid column -->
             
             </div>
             <!-- Grid row -->
-          
+
             <hr class="my-4">
           
             <div class="text-center darken-grey-text mb-4">
-                <h3 class="font-bold mb-3">Here you can find more Video Components:</h3>
-                <a class="btn btn-danger" href="https://mdbootstrap.com/components/bootstrap-video/" target="_blank">Bootstrap Video</a>
+                <p><%= desc %></p>
+                
             </div>
 
         </div>
