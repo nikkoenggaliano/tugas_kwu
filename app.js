@@ -9,6 +9,8 @@ var logger = require('morgan');
 var csrf   = require('csurf');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
+var adminsRouter = require('./routes/admins');
 var app = express();
 var config = require('./config.js');
 const port = config.server.port;
@@ -81,6 +83,8 @@ app.use(function (err, req, res, next) {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/', adminRouter);
+app.use('/admins', adminsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

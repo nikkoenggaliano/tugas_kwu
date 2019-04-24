@@ -39,7 +39,7 @@ ul.timeline > li:before {
 			<ul class="timeline">
 				<%if(series){ series.forEach((data)=>{%>
 				<li>
-					<a target="_blank" href="https://www.totoprayogo.com/#"><%= data.judul %></a>
+					<a target="_blank" href="/list-video/<%= data.id %>"><%= data.judul %></a>
 					<p class="float-right">( <%= data.tags %> )</p>
 					<p><%= data.deskripsi %></p>
 				</li>

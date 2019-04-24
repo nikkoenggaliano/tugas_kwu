@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const config = require('../config.js');
 const bcrypt = require('bcrypt');
 const valid  = require('email-validator');
 
@@ -55,8 +54,8 @@ router.post('/register', function(req,res,next){
 		return false;
 	}
 
-	let query = "INSERT INTO `user` (`id`,`email`,`username`,`password`) VALUES (NULL,?,?,?)";
-	let data  = [email,user,fpass];
+	let query = "INSERT INTO `user` (`id`,`email`,`username`,`password`,`status`) VALUES (NULL,?,?,?,?)";
+	let data  = [email,user,fpass,stat];
 	db.query(query, data, (err,result,field) =>{
 		console.log(err);
 		console.log(result);
@@ -97,7 +96,7 @@ router.post('/login', (req,res,next) => {
 		return false;
 	}
 
-	let query = "SELECT * FROM `user` where `email` = ?"
+	let query = "SELECT * FROM `user` where `email` = ?";
 	let data  = [email];
 	db.query(query,data, (err,result,field) =>{
 		if(result.length != 1){
@@ -106,6 +105,15 @@ router.post('/login', (req,res,next) => {
 			res.redirect('/auth');
 			return false;
 		}
+		let status = result[0].status;
+
+		if(status != 1){
+			req.flash('type', 'error');
+			req.flash('message', 'Maaf Akun anda tidak aktive');
+			res.redirect('/auth');
+			return false;
+		}
+
 		let dbpass = result[0].password;
 		if(bcrypt.compareSync(pass, dbpass)){
 			req.session.aid = result[0].id;
@@ -128,9 +136,9 @@ router.post('/add_series', (req,res,next)=>{
  	let cat   = req.body.cat;
  	let tag   = req.body.tags;
  	let desc  = req.body.deskripsi;
-
- 	let query  = "INSERT INTO `series` (`id`, `cid`, `judul`, `tags`, `deskripsi`) VALUES (NULL, ?, ?, ?, ?);";
- 	let data   = [cat,judul,tag,desc];
+ 	let stat  = 1;
+ 	let query  = "INSERT INTO `series` (`id`, `cid`, `judul`, `tags`, `deskripsi`, `status`) VALUES (NULL, ?, ?, ?, ?, ?);";
+ 	let data   = [cat,judul,tag,desc,stat];
  	db.query(query,data, (err,result,field) =>{
  		console.log(err);
  		console.log(result);
