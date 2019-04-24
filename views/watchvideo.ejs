@@ -69,8 +69,8 @@
                             <% if(judul.length != 0 && video.length != 0){ %>
                             <h3 class="text-center font-bold py-2 mb-3" style="color: #2a1e35"> <strong><%=judul%></strong></h3>
 
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<%=video%>" allowfullscreen></iframe>
+                            <div class="embed-responsive embed-responsive-16by9" style="width: 65%; margin-right: auto; margin-left: auto;">
+                              <iframe src="https://www.youtube.com/embed/<%= video %>?modestbranding=1&amp;rel=0&amp;iv_load_policy=3&amp;enablejsapi=1" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"> </iframe>
                             </div>
                         </div>
                     <% } %>
