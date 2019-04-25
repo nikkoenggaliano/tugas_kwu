@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const rand   = require('randomstring');
+const bcrypt = require('bcrypt');
 
 router.get('/user-status/(:id)/(:stat)', (req,res,next) =>{
 	let id = req.params.id;
@@ -107,6 +109,30 @@ router.post('/edit-user/(:id)', (req,res,next) =>{
 			}
 		}else{
 			console.log(err);
+		}
+	});
+});
+
+
+router.get('/reset/(:id)/password', (req,res,next) => {
+	let id = req.params.id;
+	let pass = rand.generate(6);
+	let fpas = bcrypt.hashSync(pass,10);
+	let data = [fpas,id];
+	
+	let query = "UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?;";
+	
+	db.query(query,data,(err,result,field) =>{
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'Password baru adalah = '+pass);
+				res.redirect('/admin/manage-user');
+			}else{
+				req.flash('type', 'error');
+				req.flash('message', 'Maaf ada kesalahan.');
+				res.redirect('/admin/manage-user');
+			}
 		}
 	});
 });

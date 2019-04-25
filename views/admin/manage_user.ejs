@@ -32,7 +32,8 @@
                                             <% } %>
                                             
                                            <td><a href="/admins/edit-user/<%=data.id%>" class="btn btn-info">Edit</a>
-                                           	<a href="/admins/del-user/<%=data.id%>" class="btn btn-danger" onclick="return confirm('Delete user <%=data.username%> ?');">Delete</a> 
+                                           	<a href="/admins/del-user/<%=data.id%>" class="btn btn-danger" onclick="return confirm('Delete user <%=data.username%> ?');">Delete</a>
+                                            <a href="/admins/reset/<%= data.id %>/password" class="btn btn-warning" onclick="return confirm('Reset user <%=data.username%> ?');">Reset Password</a> 
                                         </tr>
                                     <%  }); } %>                         
                                     </tbody>
