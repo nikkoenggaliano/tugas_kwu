@@ -14,8 +14,8 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="../javascripts/admin.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 	<link rel='stylesheet' href='/stylesheets/admin.css' />
 </head>
 
@@ -34,7 +34,7 @@
       </div>
       <div class="sidebar-header">
         <div class="user-pic">
-          <img class="img-responsive img-rounded" src="https://pbs.twimg.com/media/D4NLxKSXkAgDtrz.jpg"
+          <img class="img-responsive img-rounded" src="/images/profile.jpg"
             alt="User picture">
         </div>
         <div class="user-info">
@@ -112,7 +112,7 @@
           <li class="sidebar-dropdown">
             <a href="#">
               <i class="far fa-gem"></i>
-              <span>User Settings</span>
+              <span>List</span>
             </a>
             <div class="sidebar-submenu">
               <ul>
@@ -120,7 +120,7 @@
                   <a href="/admin/list-user">List User</a>
                 </li>
                 <li>
-                  <a href="#">Panels</a>
+                  <a href="/admin/list-series">List Series</a>
                 </li>
                 <li>
                   <a href="#">Tables</a>
@@ -221,6 +221,6 @@
 
   <%if(messages.type && messages.message){%>
     <script>
-      Swal.fire('Hello', '<%=messages.message%>', '<%=messages.type%>');
+      swal('Hello', '<%=messages.message%>', '<%=messages.type%>');
     </script>
   <%}%>

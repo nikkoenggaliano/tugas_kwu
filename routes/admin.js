@@ -55,4 +55,17 @@ router.get('/admin/list-user', (req,res,next) =>{
 	
 });
 
+
+router.get('/admin/list-series', (req,res,next) =>{
+	let query = "SELECT series.id,series.judul, series.`status`, categories.nama FROM series , categories WHERE series.cid = categories.id ORDER BY series.`status` ASC";
+	db.query(query,(err,result,field) =>{
+	console.log(result);
+		if(!err){
+			res.render('admin/series_setting', {
+				isi:result
+			});
+		}
+	});
+});
+
 module.exports = router;
