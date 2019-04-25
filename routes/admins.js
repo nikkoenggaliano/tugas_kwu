@@ -47,4 +47,68 @@ router.get('/series-status/(:id)/(:stat)', (req,res,next) =>{
 });
 
 
+router.get('/del-user/(:id)', (req,res,next) =>{
+	let id = req.params.id;
+	let query = "DELETE FROM `user` WHERE `user`.`id` = ?";
+
+	db.query(query,id,(err,result,field) =>{
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'User telah berhasil dihapus!');
+				res.redirect('/admin/manage-user');
+			}else{
+				req.flash('type', 'error');
+				req.flash('message', 'Maaf ada kesalahan.');
+				res.redirect('/admin/manage-user');
+			}
+		}
+	});
+});
+
+
+router.get('/edit-user/(:id)', (req,res,next) =>{
+	let id = req.params.id;
+	let query = "SELECT * from `user` where `id` = ?";
+	db.query(query,id,(err,result,field) =>{
+		if(!err){
+			if(result.length == 1){
+				let email = result[0].email;
+				let user  = result[0].username;
+				let id    = result[0].id;
+				res.render('admin/edit_user',{
+					id:id,
+					email:email,
+					user:user
+				});
+			}
+		}
+	});
+
+});
+
+router.post('/edit-user/(:id)', (req,res,next) =>{
+	let id = req.params.id;
+	let user = req.body.user;
+	let email = req.body.email;
+	let data  = [user,email,id];
+	let query = "UPDATE `user` SET `username` = ? , `email` = ? WHERE `user`.`id` = ?;";
+
+	db.query(query,data,(err,result,field) =>{
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'Data user berhasil diubah!');
+				res.redirect('/admins/edit-user/'+id);
+			}else{
+				req.flash('type', 'error');
+				req.flash('message', 'Maaf ada kesalahan.');
+				res.redirect('/admins/edit-user/'+id);
+			}
+		}else{
+			console.log(err);
+		}
+	});
+});
+
 module.exports = router;

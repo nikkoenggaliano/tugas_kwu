@@ -68,4 +68,16 @@ router.get('/admin/list-series', (req,res,next) =>{
 	});
 });
 
+
+router.get('/admin/manage-user', (req,res,next) =>{
+	let query = "SELECT * FROM `user`";
+	db.query(query,(err,result,field) =>{
+		if(!err){
+			res.render('admin/manage_user',{
+				isi:result
+			});
+		}
+	});
+});
+
 module.exports = router;

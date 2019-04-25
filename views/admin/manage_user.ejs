@@ -31,8 +31,8 @@
                                            		<td style="color: blue;">ON</td>
                                             <% } %>
                                             
-                                           <td><a href="/admins/user-status/<%= data.id %>/0" class="btn btn-info" onclick="return confirm('Disable user <%=data.username%> ?');">OFF</a>
-                                           	<a href="/admins/user-status/<%= data.id %>/1" class="btn btn-info" onclick="return confirm('Activekan user <%=data.username%> ?');">ON</a> 
+                                           <td><a href="/admins/edit-user/<%=data.id%>" class="btn btn-info">Edit</a>
+                                           	<a href="/admins/del-user/<%=data.id%>" class="btn btn-danger" onclick="return confirm('Delete user <%=data.username%> ?');">Delete</a> 
                                         </tr>
                                     <%  }); } %>                         
                                     </tbody>
