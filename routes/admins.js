@@ -2,6 +2,96 @@ const router = require('express').Router();
 const rand   = require('randomstring');
 const bcrypt = require('bcrypt');
 
+// Parse Youtube id
+function YouTubeGetID(url){
+  var ID = '';
+  url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+  if(url[2] !== undefined) {
+    ID = url[2].split(/[^0-9a-z_\-]/i);
+    ID = ID[0];
+  }
+  else {
+    ID = url;
+  }
+    return ID;
+}
+
+
+router.post('/add_series', (req,res,next)=>{
+ 	let judul = req.body.judul;
+ 	let cat   = req.body.cat;
+ 	let tag   = req.body.tags;
+ 	let desc  = req.body.deskripsi;
+ 	let stat  = 1;
+ 	let query  = "INSERT INTO `series` (`id`, `cid`, `judul`, `tags`, `deskripsi`, `status`) VALUES (NULL, ?, ?, ?, ?, ?);";
+ 	let data   = [cat,judul,tag,desc,stat];
+ 	db.query(query,data, (err,result,field) =>{
+ 		console.log(err);
+ 		console.log(result);
+ 		console.log(field);
+ 		if(!err){
+			if(result.affectedRows == 1){
+
+				req.flash('type', 'success');
+				req.flash('message', 'Series Berhasil ditambahakan.');
+				res.redirect('/admin/add-series');
+
+			}
+		}
+
+ 	});
+});
+
+router.post('/add_categories', (req,res,next)=>{
+	let name = req.body.judul;
+	let query = "INSERT INTO `categories` (`id`, `nama`) VALUES (NULL, ?);";
+	let data  = [name];
+
+	if(data.length <= 0){
+		req.flash('type', 'success');
+		req.flash('message', 'Categories Berhasil ditambahkan!');
+		res.redirect('/admin/add-categories');
+		return false;
+	}
+
+	db.query(query,data, (err,result,field) =>{
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'Categories Berhasil ditambahkan!');
+				res.redirect('/admin/add-categories');
+			}
+		}
+	});
+});
+
+
+router.post('/add_post', (req,res,next)=>{
+	let judul = req.body.judul;
+	let cat   = req.body.cat;
+	let tag   = req.body.tags;
+	let desc  = req.body.deskripsi;
+	let url   = req.body.url;
+	let yid   = YouTubeGetID(url);
+	let query = "INSERT INTO `post` (`id`, `sid`, `judul`, `tag`, `deskripsi`, `yid`, `url`,`status`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);";
+	let data  = [cat,judul,tag,desc,yid,url,1];
+	db.query(query,data,(err,result,field) => {
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'Post Berhasil ditambahkan!');
+				res.redirect('/admin/add-post');
+			}
+		}else{
+			console.log(err);
+			console.log(data);
+		}
+	});
+});
+
+
+
+
 router.get('/user-status/(:id)/(:stat)', (req,res,next) =>{
 	let id = req.params.id;
 	let stat = req.params.stat;

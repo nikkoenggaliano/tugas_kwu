@@ -26,7 +26,7 @@ router.get('/admin/add-categories', (req,res,next)=>{
 });
 
 router.get('/admin/add-post', (req,res,next)=>{
-	let query = "SELECT `id`,`judul` FROM `series`";
+	let query = "SELECT `id`,`judul` FROM `series` where `status` = 2";
 	db.query(query,(err,result,field)=>{
 		if(result.length){
 			res.render('admin/add_post', {
