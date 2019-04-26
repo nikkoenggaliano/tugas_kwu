@@ -15,17 +15,16 @@
                                     <thead>
                                         <th>No</th>
                                         <th>Judul</th>
-                                    	  <th>Kategori</th>
+                                    	  <th>Tag</th>
                                     	  <th>Status</th>
-                                        <th>Jumlah</th>
                                         <th>Action</th>
                                     </thead>
                                     <tbody> 
                                     <% if(isi){ isi.forEach((data,index) =>{ %>
                                         <tr>
                                             <td><%= (index+1) %></td>
-                                            <td><a href="/admin/post-list/<%=data.id%>"><%= data.judul %></td>
-                                            <td><%= data.nama %></td>
+                                            <td><%= data.judul %></td>
+                                            <td><%= data.tag %></td>
                                             <% if(data.status == 0){ %>
                                             	<td style="color: red;">OFF</td>
                                            	<% }else if(data.status == 1){ %>
@@ -33,11 +32,10 @@
                                             <% }else{ %>
                                               <td style="color: green;">Development</td>
                                             <% } %>
-                                            <td><%= data.jumlah %></td>
+                                            
                                            <td>
-                                            <a href="/admins/series-status/<%= data.id %>/1" class="btn btn-info" onclick="return confirm('Activekan <%=data.judul%> ?');">ON</a>
-                                            <a href="/admins/series-status/<%= data.id %>/0" class="btn btn-danger" onclick="return confirm('Deactivekan <%=data.judul%> ?');">OFF</a>
-                                            <a href="/admins/series-status/<%= data.id %>/2" class="btn btn-success" onclick="return confirm('Development <%=data.judul%> ?');">Dev</a> 
+                                            <a href="/admins/post-status/<%=data.id%>/1/<%=data.sid%>" class="btn btn-info" onclick="return confirm('Activekan <%=data.judul%> ?');">ON</a>
+                                            <a href="/admins/post-status/<%=data.id%>/0/<%=data.sid%>" class="btn btn-danger" onclick="return confirm('Deactivekan <%=data.judul%> ?');">OFF</a>
                                               </td>
                                         </tr>
                                     <%  }); } %>                         

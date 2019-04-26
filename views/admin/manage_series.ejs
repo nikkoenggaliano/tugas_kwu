@@ -15,8 +15,8 @@
                                     <thead>
                                         <th>No</th>
                                         <th>Judul</th>
-                                    	  <th>Kategori</th>
-                                    	  <th>Status</th>
+                                        <th>Kategori</th>
+                                        <th>Status</th>
                                         <th>Jumlah</th>
                                         <th>Action</th>
                                     </thead>
@@ -27,17 +27,16 @@
                                             <td><a href="/admin/post-list/<%=data.id%>"><%= data.judul %></td>
                                             <td><%= data.nama %></td>
                                             <% if(data.status == 0){ %>
-                                            	<td style="color: red;">OFF</td>
-                                           	<% }else if(data.status == 1){ %>
-                                           		<td style="color: blue;">ON</td>
+                                              <td style="color: red;">OFF</td>
+                                            <% }else if(data.status == 1){ %>
+                                              <td style="color: blue;">ON</td>
                                             <% }else{ %>
                                               <td style="color: green;">Development</td>
                                             <% } %>
                                             <td><%= data.jumlah %></td>
                                            <td>
-                                            <a href="/admins/series-status/<%= data.id %>/1" class="btn btn-info" onclick="return confirm('Activekan <%=data.judul%> ?');">ON</a>
-                                            <a href="/admins/series-status/<%= data.id %>/0" class="btn btn-danger" onclick="return confirm('Deactivekan <%=data.judul%> ?');">OFF</a>
-                                            <a href="/admins/series-status/<%= data.id %>/2" class="btn btn-success" onclick="return confirm('Development <%=data.judul%> ?');">Dev</a> 
+                                            <a href="/admin/edit-series/<%= data.id %>" class="btn btn-info" onclick="return confirm('Edit <%=data.judul%> ?');">Edit</a>
+                                            <a href="/admins/delete/<%=data.id%>/series" class="btn btn-danger" onclick="return confirm('Hapus <%=data.judul%> ?');">Delete</a> 
                                               </td>
                                         </tr>
                                     <%  }); } %>                         
@@ -48,9 +47,9 @@
                         </div>
                     </div>
   <script type="text/javascript">
-  	$(document).ready(function() {
-    	$('#myTable').DataTable();
-	});
+    $(document).ready(function() {
+      $('#myTable').DataTable();
+  });
   </script>
                 </div>
             </div>

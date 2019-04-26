@@ -227,4 +227,69 @@ router.get('/reset/(:id)/password', (req,res,next) => {
 	});
 });
 
+router.get('/post-status/(:id)/(:stat)/(:sid)', (req,res,next) =>{
+	let id = req.params.id;
+	let sid = req.params.sid;
+	let stat = req.params.stat;
+	let data = [stat,id];
+	console.log(req.originalUrl);
+
+	let query = "UPDATE `post` SET `status` = ? WHERE `id` = ?";
+	db.query(query,data,(err,result,field) =>{
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'Status berhasil diganti!');
+				res.redirect('/admin/post-list/'+sid);
+			}else{
+				req.flash('type', 'error');
+				req.flash('message', 'Maaf ada kesalahan.');
+				res.redirect('/admin/post-list/'+sid);
+			}
+		}
+	});
+});
+
+router.post('/edit-series/(:id)', (req,res,next) =>{
+	let id = req.params.id;
+	let judul = req.body.judul;
+	let cat   = req.body.cat;
+	let tag   = req.body.tags;
+	let desc  = req.body.deskripsi;
+	let data  = [judul,tag,desc,cat, id];
+	console.log(data);
+	let query = "UPDATE `series` SET `judul` = ? , `tags` = ? , `deskripsi` = ? , `cid` = ? WHERE `id` = ?";
+
+	db.query(query,data,(err,result,field) =>{
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'Data berhasil diubah!');
+				res.redirect('/admin/edit-series/'+id);
+			}else{
+				req.flash('type', 'error');
+				req.flash('message', 'Maaf ada kesalahan.');
+				res.redirect('/admin/edit-series/'+id);
+			}
+		}
+	});
+
+});
+
+
+router.get('/delete/(:id)/series', (req,res,next) =>{
+	let id = req.params.id;
+	let query = "DELETE FROM `series` WHERE `series`.`id` = ?";
+	db.query(query,id,(err,result,field) =>{
+		if(!err){
+			db.query("DELETE FROM `post` WHERE `post`.`sid` = ?", id, (err2,result2,field2) =>{
+				if(!err){
+					req.flash('type', 'success');
+					req.flash('message', 'Data berhasil dihapus!');
+					res.redirect('/admin/manage-series');
+				}
+			});
+		}
+	});
+});
 module.exports = router;
