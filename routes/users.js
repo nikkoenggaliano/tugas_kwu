@@ -210,4 +210,62 @@ router.post('/add_post', (req,res,next)=>{
 
 });
 
+
+router.post('/change-password', (req,res,next) =>{
+	let id = req.session.aid;
+	console.log(id);
+	let old = req.body.old;
+	let baru = req.body.new;
+	let rbaru = req.body.rnew;
+
+	if(old.length < 5 || baru.length < 5 || rbaru.length < 5){
+		req.flash('type', 'error');
+		req.flash('message', 'Passowrd minimal 5 karakter!');
+		res.redirect('/change-password');
+		return false;
+	}
+
+	if(baru != rbaru){
+		req.flash('type', 'error');
+		req.flash('message', 'Password baru yang kamu masukan tidak sama, Periksa ulang');
+		res.redirect('/change-password');
+		return false;
+	}
+	let fpass  = bcrypt.hashSync(baru,10);
+	let query = "SELECT * FROM `user` WHERE `id` = ?";
+	db.query(query,id,(err,result,field) =>{
+		if(!err){
+			if(result.length == 1){
+				let pass = result[0].password;
+				console.log(old,pass);
+				if(bcrypt.compareSync(old, pass)){
+					db.query("UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?;",[fpass,id],(err,result,field)=>{
+						if(!err){
+							if(result.affectedRows == 1){
+								req.flash('type', 'success');
+								req.flash('message', 'Password berhasil diganti.');
+								res.redirect('/change-password');
+							}else{
+								req.flash('type', 'error');
+								req.flash('message', 'Something error!');
+								res.redirect('/change-password');
+								return false;
+							}
+						}
+					});
+				}else{
+					req.flash('type', 'error');
+					req.flash('message', 'Password lamamu tidak sama!');
+					res.redirect('/change-password');
+					return false;
+				}
+			}else{
+				req.flash('type', 'error');
+				req.flash('message', 'Error no id restored!');
+				res.redirect('/change-password');
+				return false;
+			}
+		}
+	});
+});
 module.exports = router;

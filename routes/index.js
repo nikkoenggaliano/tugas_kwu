@@ -171,5 +171,16 @@ router.get('/watch-video/(:sid)/(:id)', (req,res,next) =>{
 });
 
 
+router.get('/change-password', (req,res,next) =>{
+	if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
+		res.redirect('/auth');
+		return false;
+	}
+	
+	res.render('change_password', {
+		title: "Password Changer"
+	});
+});
+
 
 module.exports = router;

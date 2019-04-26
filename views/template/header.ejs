@@ -12,6 +12,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/assets/js/jquery.min.js"></script>
     <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="/assets/js/script.min.js"></script>
@@ -48,10 +49,16 @@
                             </div>
                         </li>
                         <li class="dropdown nav-item"><a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">Profile❤</a>
-                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">My Profile</a><a class="dropdown-item" role="presentation" href="#">Change Password</a><a class="dropdown-item" role="presentation" href="/logout" data-bs-hover-animate="pulse">Logout ✗</a></div>
+                            <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">My Profile</a><a class="dropdown-item" role="presentation" href="/change-password">Change Password</a><a class="dropdown-item" role="presentation" href="/logout" data-bs-hover-animate="pulse">Logout ✗</a></div>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </div>
+
+<%if(messages.type && messages.message){%>
+    <script>
+        swal('Hello', '<%=messages.message%>', '<%=messages.type%>');
+    </script>
+<%}%>

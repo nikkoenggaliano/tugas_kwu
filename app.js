@@ -74,7 +74,6 @@ app.use(function (err, req, res, next) {
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
   // handle CSRF token errors here
   res.status(403)
-  res.send('Error while process your system.');
   res.send("We couldn't detect the token of csrf.")
 });
 
