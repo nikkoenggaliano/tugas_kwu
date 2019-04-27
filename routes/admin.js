@@ -134,4 +134,42 @@ router.get('/admin/edit-series/(:id)', (req,res,next) =>{
 	});
 });
 
+router.get('/admin/manage-post/(:id)',(req,res,next) =>{
+	let id = req.params.id;
+	let query = "SELECT * FROM `post` WHERE `sid` = ?";
+	db.query(query,id,(err,result,field) =>{
+		if(!err){
+			res.render('admin/manage_post', {
+				isi:result
+			});
+		}
+	});
+});
+
+router.get('/admin/edit-post/(:id)', (req,res,next) =>{
+	let id = req.params.id;
+	let query = "SELECT series.judul AS series, post.id, post.sid, post.judul, post.tag, post.deskripsi, post.url FROM series , post WHERE post.sid = series.id AND post.id = ?;"
+	db.query(query,id,(err,result,field) =>{
+		if(!err){
+			if(result.length == 1){
+				db.query("SELECT `id`,`judul` FROM `series` where `status` = 2", (err2,result2,field2) =>{
+				let series= result[0].series;
+				let judul = result[0].judul;
+				let tag   = result[0].tag;
+				let desc  = result[0].deskripsi;
+				let url   = result[0].url;
+				res.render('admin/edit_post',{
+					series:series,
+					judul:judul,
+					tag:tag,
+					desc:desc,
+					url:url,
+					categories:result2
+				});
+				})
+			}
+		}
+	});
+});
+
 module.exports = router;
