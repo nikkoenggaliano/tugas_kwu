@@ -35,7 +35,7 @@
                                             
                                            <td>
                                             <a href="/admin/edit-post/<%=data.id%>" class="btn btn-info" onclick="return confirm('Edit <%=data.judul%> ?');">Edit</a>
-                                            <a href="#/<%=data.id%>/0/<%=data.sid%>" class="btn btn-danger" onclick="return confirm('Delete <%=data.judul%> ?');">Delete</a>
+                                            <a href="/admins/delete/<%=data.id%>/post/<%=data.sid%>" class="btn btn-danger" onclick="return confirm('Delete <%=data.judul%> ?');">Delete</a>
                                               </td>
                                         </tr>
                                     <%  }); } %>                         

@@ -323,4 +323,19 @@ router.post('/edit-post/(:id)', (req,res,next) =>{
 
 
 });
+
+router.get('/delete/(:id)/post/(:sid)', (req,res,next) =>{
+	let id = req.params.id;
+	let sid = req.params.sid;
+	let query = "DELETE FROM `post` WHERE `post`.`id` = ?";
+
+	db.query(query,id,(err,result,field) => {
+		if(!err){
+			req.flash('type', 'success');
+			req.flash('message', 'Data berhasil dihapus!');
+			res.redirect('/admin/manage-post/'+sid);
+		}
+	});
+});
+
 module.exports = router;
