@@ -292,4 +292,35 @@ router.get('/delete/(:id)/series', (req,res,next) =>{
 		}
 	});
 });
+
+
+router.post('/edit-post/(:id)', (req,res,next) =>{
+	let id = req.params.id;
+	let judul = req.body.judul;
+	let cat   = req.body.cat;
+	let tag   = req.body.tag;
+	let url   = req.body.url;
+	let yid   = YouTubeGetID(url);
+	let desc  = req.body.deskripsi;
+
+	let data  = [judul,tag,desc,yid,url];
+	let query = "UPDATE `post` SET `judul` = ? , `tag` = ? , `deskripsi` = ? , `yid` = ? , `url` = ? ";
+
+	db.query(query,data,(err,result,field) =>{
+		if(!err){
+			if(result.affectedRows == 1){
+				req.flash('type', 'success');
+				req.flash('message', 'Post berhasil diubah!');
+				res.redirect('/admin/edit-post/'+id);
+			}else{
+				req.flash('type', 'error');
+				req.flash('message', 'Maaf ada kesalahan.');
+				res.redirect('/admin/edit-post/'+id);
+			}
+
+		}
+	});
+
+
+});
 module.exports = router;

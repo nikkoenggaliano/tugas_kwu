@@ -153,12 +153,14 @@ router.get('/admin/edit-post/(:id)', (req,res,next) =>{
 		if(!err){
 			if(result.length == 1){
 				db.query("SELECT `id`,`judul` FROM `series` where `status` = 2", (err2,result2,field2) =>{
+				let aidi  = result[0].id;
 				let series= result[0].series;
 				let judul = result[0].judul;
 				let tag   = result[0].tag;
 				let desc  = result[0].deskripsi;
 				let url   = result[0].url;
 				res.render('admin/edit_post',{
+					aidi:aidi,
 					series:series,
 					judul:judul,
 					tag:tag,
