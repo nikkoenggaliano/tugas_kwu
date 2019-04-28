@@ -39,7 +39,7 @@ router.get('/home', (req,res,next)=>{
 });
 
 router.get('/series', (req,res,next) =>{
-	let query = "SELECT (SELECT count(id) FROM series WHERE series.cid = categories.id) as Total, categories.* FROM categories";
+	let query = "SELECT (SELECT count(id) FROM series WHERE series.cid = categories.id and series.`status` != 0) as Total, categories.* FROM categories";
 	db.query(query,(err,result,field) =>{
 		res.render('home_series',{
 			title: 'List Of Series',
@@ -58,7 +58,7 @@ router.get('/series/(:id)', (req,res,next) =>{
 	// 	return false;
 	// }
 
-	db.query("SELECT * FROM `series` WHERE `cid` = ?",sid,(err,result,field) =>{
+	db.query("SELECT * FROM `series` WHERE `cid` = ? and `status` != 0",sid,(err,result,field) =>{
 			res.render('series', {
 			title: "Series",
 			isi:result,
