@@ -252,4 +252,44 @@ router.get('/logout', (req,res,next)=>{
 });
 
 
+
+router.post('/change-profile', (req,res,next) =>{
+	let id = req.session.aid;
+	if(typeof id == 'undefined'){
+		req.flash('type', 'error');
+		req.flash('message', 'Forced logout error!');
+		res.redirect('/auth');
+		return false;
+	}
+
+	let user = req.body.user;
+	let nama = req.body.nama;
+	let ins  = req.body.ins;
+
+	if(user.length <= 5 || nama.length <= 5  || ins.length <= 5){
+		req.flash('type', 'error');
+		req.flash('message', 'Data tidak boleh kurang dari 5!');
+		res.redirect('/setting');
+		return false;
+	}
+
+
+	let query = "UPDATE `user` SET `username` = ? WHERE `user`.`id` = ?;UPDATE `profile` SET `nama` = ? , `instansi` = ? WHERE `profile`.`id` = ? ";
+	let data  = [user,id,nama,ins,id];
+	db.query(query,data,(err,result,field)=>{
+		if(!err){
+			if(result[0].affectedRows == 1 && result[1].affectedRows == 1 ){
+				req.flash('type', 'success');
+				req.flash('message', 'Data berhasil diperbaharui!');
+				res.redirect('/setting');
+			}else{
+				req.flash('type', 'error');
+				req.flash('message', 'Something error!');
+				res.redirect('/setting');
+				return false;
+			}
+		}
+	});
+});
+
 module.exports = router;

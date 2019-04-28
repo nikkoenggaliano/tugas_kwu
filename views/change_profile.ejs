@@ -15,29 +15,35 @@
 		        <div class="card-body">
 		            <div class="row">
 		                <div class="col-md-12">
-		                    <h4>Change Password</h4>
+		                    <h4>Change Profile</h4>
 		                    <hr>
 		                </div>
 		            </div>
 		            <div class="row">
 		                <div class="col-md-12">
-		                    <form method="POST" action="/users/change-password" autocomplete="OFF">
+		                    <form method="POST" action="/users/change-profile" autocomplete="OFF">
                           <div class="form-group row">
-                            <label for="username" class="col-4 col-form-label">Old Password</label> 
+                            <label for="username" class="col-4 col-form-label">Email</label> 
                             <div class="col-8">
-                              <input id="username" name="old" placeholder="Your old password" class="form-control here" required="required" type="password">
+                              <input id="email" type="text" class="form-control here" disabled value="<%= email %>">
                             </div>
                           </div>
                           <div class="form-group row">
-                            <label for="name" class="col-4 col-form-label">New Password</label> 
+                            <label for="username" class="col-4 col-form-label">Username</label> 
                             <div class="col-8">
-                              <input id="name" name="new" placeholder="New Password" class="form-control here" type="password">
+                              <input id="username" name="user" value="<%=user%>" class="form-control here" required="required" type="text">
                             </div>
                           </div>
                           <div class="form-group row">
-                            <label for="lastname" class="col-4 col-form-label">Retype new Password</label> 
+                            <label for="name" class="col-4 col-form-label">Name</label> 
                             <div class="col-8">
-                              <input id="lastname" name="rnew"placeholder="Retype new Password" class="form-control here" type="password">
+                              <input id="name" name="nama" value="<%=nama%>" class="form-control here" type="text">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="lastname" class="col-4 col-form-label">Instansi</label> 
+                            <div class="col-8">
+                              <input id="lastname" name="ins" value="<%=ins%>" class="form-control here" type="text">
                             </div>
                           </div>
                            <input type="hidden" name="_csrf" value="<%=csrfToken%>">

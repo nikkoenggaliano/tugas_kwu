@@ -176,4 +176,37 @@ router.get('/change-password', (req,res,next) =>{
 });
 
 
+router.get('/prof', (req,res,next) =>{
+	res.render('prof', {
+		title:"Contoh"
+	});
+});
+
+router.get('/setting', (req,res,next) =>{
+	let id = req.session.aid;
+	if(typeof id == 'undefined'){
+		req.flash('type', 'error');
+		req.flash('message', 'You are forced logout!');
+		res.redirect('/auth');
+		return false;
+	}
+	let query = "SELECT `profile`.nama, `profile`.instansi, `user`.username, `user`.email FROM `user` , `profile` WHERE `user`.id = `profile`.id AND `user`.`id` = ?";
+	db.query(query,id,(err,result,field) =>{
+		if(!err){
+			let nama = result[0].nama;
+			let instansi = result[0].instansi;
+			let user     = result[0].username;
+			let email    = result[0].email; 
+			res.render('change_profile',{
+				title:"Change Profile",
+				nama:nama,
+				ins:instansi,
+				user:user,
+				email,email
+			});
+		}
+	});
+});
+
+
 module.exports = router;
