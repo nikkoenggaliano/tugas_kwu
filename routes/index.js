@@ -39,6 +39,10 @@ router.get('/home', (req,res,next)=>{
 });
 
 router.get('/series', (req,res,next) =>{
+	if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
+		res.redirect('/auth');
+		return false;
+	}
 	let query = "SELECT (SELECT count(id) FROM series WHERE series.cid = categories.id and series.`status` != 0) as Total, categories.* FROM categories";
 	db.query(query,(err,result,field) =>{
 		res.render('home_series',{
@@ -53,10 +57,10 @@ router.get('/series/(:id)', (req,res,next) =>{
 
 	let sid = req.params.id;
 	
-	// if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
-	// 	res.redirect('/auth');
-	// 	return false;
-	// }
+	if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
+		res.redirect('/auth');
+		return false;
+	}
 
 	db.query("SELECT * FROM `series` WHERE `cid` = ? and `status` != 0",sid,(err,result,field) =>{
 			res.render('series', {
@@ -69,6 +73,11 @@ router.get('/series/(:id)', (req,res,next) =>{
 
 router.get('/list-video/(:sid)', (req,res,next) =>{
 	let sid = req.params.sid;
+
+	if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
+		res.redirect('/auth');
+		return false;
+	}
 
 	let query = "SELECT post.id, post.sid, post.judul, post.tag, post.deskripsi, post.yid, post.url, series.judul AS sjudul FROM post , series WHERE post.sid = series.id AND post.sid = ? ";
 	let data  = [sid];
@@ -94,6 +103,11 @@ router.get('/list-video/(:sid)', (req,res,next) =>{
 
 
 router.get('/watch-video/(:sid)/(:id)', (req,res,next) =>{
+	if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
+		res.redirect('/auth');
+		return false;
+	}
+
 
 	let sid = parseInt(req.params.sid);
 	let id  = parseInt(req.params.id);
