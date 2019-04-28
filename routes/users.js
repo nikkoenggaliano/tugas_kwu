@@ -2,6 +2,20 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const valid  = require('email-validator');
 
+var sbulan = {
+	'01':"Januari",
+	'02':"February",
+	'03':"Maret",
+	'04':"April",
+	'05':"Mei",
+	'06':'Juni',
+	'07':'Juli',
+	'08':'Agustus',
+	'09':'September',
+	'10':'Oktober',
+	'11':'November',
+	'12':'Desember'
+};
 
 
 /* GET users listing. */
@@ -43,15 +57,17 @@ router.post('/register', function(req,res,next){
 	let query = "INSERT INTO `user` (`id`,`email`,`username`,`password`,`status`) VALUES (NULL,?,?,?,?)";
 	let data  = [email,user,fpass,stat];
 	db.query(query, data, (err,result,field) =>{
-		console.log(err);
-		console.log(result);
-		
 		if(!err){
 			if(result.affectedRows == 1){
-				req.flash('type', 'success');
-				req.flash('message', 'Selamat Registrasi Berhasil');
-				res.redirect('/auth');
-
+				let aid = result.insertId;
+				let que = "INSERT INTO `profile` (`id`, `nama`, `instansi`, `last_login`) VALUES (?, ?, NULL, NULL);"
+				db.query(que,[aid,user],(er,resu,fi) =>{
+					if(resu.affectedRows == 1){
+						req.flash('type', 'success');
+						req.flash('message', 'Selamat Registrasi Berhasil');
+						res.redirect('/auth');
+					}
+				});
 			}
 		}
 
@@ -74,6 +90,23 @@ router.post('/register', function(req,res,next){
 router.post('/login', (req,res,next) => {
 	let email = req.body.email;
 	let pass  = req.body.pass;
+
+	let d = new Date();
+	let tahun = d.getFullYear();
+	let bulan = String(d.getMonth() + 1).padStart(2, '0');
+	let tanggal =  String(d.getDate()).padStart(2, '0');
+	let jam     = d.getHours();
+	let menit   = d.getMinutes();
+	let detik   = d.getSeconds();
+
+	let det = tanggal+'-'+sbulan[bulan]+'-'+tahun;
+	let detail = jam+':'+menit+':'+detik;
+	console.log(detail);
+	let jdate = {
+		"tanggal":det,
+		"jam":detail
+	};
+	let fjdate = JSON.stringify(jdate);
 
 	if(!valid.validate(email)){
 		req.flash('type', 'error');
@@ -102,10 +135,17 @@ router.post('/login', (req,res,next) => {
 
 		let dbpass = result[0].password;
 		if(bcrypt.compareSync(pass, dbpass)){
-			req.session.aid = result[0].id;
-			req.session.user = result[0].username;
-			res.redirect('/home');
-
+			let que = "UPDATE `profile` SET `last_login` = ? WHERE `id` = ?";
+			let dd  = [fjdate,result[0].id];
+			console.log(dd);
+			db.query(que,dd,(err2,result2,field2) =>{
+				console.log(result2);
+				if(!err2){
+					req.session.aid = result[0].id;
+					req.session.user = result[0].username;
+					res.redirect('/home');
+				}
+			});
 		}else{
 			req.flash('type', 'error');
 			req.flash('message', 'Email / Password Tidak ditemukan!');
@@ -175,4 +215,41 @@ router.post('/change-password', (req,res,next) =>{
 		}
 	});
 });
+
+
+router.get('/logout', (req,res,next)=>{
+	let id = req.session.aid;
+	if(typeof id == 'undefined'){
+		req.flash('type', 'error');
+		req.flash('message', 'Forced logout error!');
+		res.redirect('/auth');
+		return false;
+	}
+	let d = new Date();
+	let tahun = d.getFullYear();
+	let bulan = String(d.getMonth() + 1).padStart(2, '0');
+	let tanggal =  String(d.getDate()).padStart(2, '0');
+	let jam     = d.getHours();
+	let menit   = d.getMinutes();
+	let detik   = d.getSeconds();
+
+	let det = tanggal+'-'+sbulan[bulan]+'-'+tahun;
+	let detail = jam+':'+menit+':'+detik;
+	console.log(detail);
+	let jdate = {
+		"tanggal":det,
+		"jam":detail
+	};
+	let fjdate = JSON.stringify(jdate);
+	let query = "UPDATE `profile` SET `last_login` = ? WHERE `id` = ?";
+	let data = [fjdate,id];
+	db.query(query,data,(err,result,field) =>{
+		if(!err){
+			req.session.destroy();
+			res.redirect('/auth');
+		}
+	});
+});
+
+
 module.exports = router;

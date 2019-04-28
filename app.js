@@ -20,7 +20,8 @@ const db = mysql.createConnection({
 	host : config.database.host,
 	user : config.database.user,
 	password : config.database.pass,
-	database : config.database.database
+	database : config.database.database,
+  multipleStatements: true
 });
 
 

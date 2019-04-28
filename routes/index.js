@@ -38,13 +38,6 @@ router.get('/home', (req,res,next)=>{
 	});
 });
 
-
-router.get('/logout', (req,res,next)=>{
-	req.session.destroy();
-	res.redirect('/auth');
-});
-
-
 router.get('/series', (req,res,next) =>{
 	let query = "SELECT (SELECT count(id) FROM post WHERE post.sid = series.id) as jumlah, series.id,series.judul, series.`status`, categories.nama FROM series , categories WHERE series.cid = categories.id ORDER BY series.`status` ASC";
 	db.query(query,(err,result,field) =>{
