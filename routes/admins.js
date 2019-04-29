@@ -338,4 +338,30 @@ router.get('/delete/(:id)/post/(:sid)', (req,res,next) =>{
 	});
 });
 
+router.post('/login', (req,res,next) =>{
+	let user = req.body.user;
+	let pass = req.body.pass;
+	let query = "SELECT * FROM `admin` WHERE `user` = ?";
+	db.query(query,user,(err,result,field) =>{
+		if(!err){
+			if(result.length == 1){
+
+			let dbpass = result[0].pass;
+			if(bcrypt.compareSync(pass, dbpass)){				
+				req.session.admin = result[0].id;
+				console.log('Success');
+				console.log(req.session.admin);
+				res.redirect('/callestasia_admin');	
+			}
+
+			}else{
+				req.flash('type', 'error');
+				req.flash('message', 'Failed!');
+				res.redirect('/callestasia_admin');
+				return false;
+			}
+		}
+	});
+});
+
 module.exports = router;

@@ -1,10 +1,49 @@
 <%- include template/header.ejs%>
 <main class="page-content">
     <div class="container-fluid">
-      <h2>Code Goes after here</h2>
-      <hr>
+      <h2>User Activity</h2>
       </div>
-    </div>
+      <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="content table-responsive table-full-width">
+                                <table id="myTable" class="table table-striped">
+                                    <thead>
+                                      <th>No</th>
+                                      <th>Username</th>
+                                    	<th>Email</th>
+                                    	<th>Nama</th>
+                                      <th>Tanggal Login</th>
+                                      <th>Jam Login</th>
+                                    </thead>
+                                    <tbody> 
+                                    <% if(isi){ isi.forEach((data,index) =>{ %>
+                                        <tr>
+                                            <td><%= (index+1) %></td>
+                                            <td><%= data.username %></td>
+                                            <td><%= data.email %></td>
+                                            <td><%= data.nama %></td>
+                                            <td><%= JSON.parse(data.last_login).tanggal%></td>
+                                            <td><%= JSON.parse(data.last_login).jam%></td>
+                                        </tr>
+                                    <%  }); } %>                         
+                                    </tbody>
+                                </table>
 
+                            </div>
+                        </div>
+                    </div>
+  <script type="text/javascript">
+  	$(document).ready(function() {
+    	$('#myTable').DataTable();
+	});
+  </script>
+                </div>
+            </div>
+        </div>
+
+    </div>
   </main>
 <%- include template/footer.ejs%>

@@ -55,8 +55,13 @@ router.get('/series', (req,res,next) =>{
 
 router.get('/series/(:id)', (req,res,next) =>{
 
-	let sid = req.params.id;
+	let sid = Number(req.params.id);
 	
+	if(typeof sid != "number"){
+		res.redirect("/series");
+		return false;
+	}
+
 	if(typeof req.session.user != "string"  && typeof req.session.aid != "string"){
 		res.redirect('/auth');
 		return false;
@@ -115,9 +120,11 @@ router.get('/watch-video/(:sid)/(:id)', (req,res,next) =>{
 
 	let fque = "SELECT `id` FROM `post` WHERE `sid` = ?";
 	db.query(fque,sid,(err,result,field) => {
+		if(result.length != 0){
 		result.forEach((data) =>{
 			arrid.push(data.id);
 		});
+	}
 	});
 
 

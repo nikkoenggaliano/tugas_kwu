@@ -1,11 +1,28 @@
 const router = require('express').Router();
 
+router.get('/callestasia_auth', (req,res,next) =>{
+	res.status(404);
+	res.render('admin/auth');
+});
 
-router.get('/admin', (req,res,next)=>{
-	res.render('admin/home.ejs');
+router.get('/callestasia_admin', (req,res,next)=>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
+	let query = "SELECT `user`.username, `profile`.nama, `profile`.last_login, `user`.email FROM `user` , `profile` WHERE `user`.id = `profile`.id";
+	db.query(query,(err,result,field) =>{
+		res.render('admin/home.ejs', {
+			isi:result
+		});
+	});
 });
 
 router.get('/admin/add-series', (req,res,next)=>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let query = "SELECT * FROM `categories`";
 	db.query(query,(err,result,field)=>{
 		if(result.length){
@@ -22,10 +39,18 @@ router.get('/admin/add-series', (req,res,next)=>{
 });
 
 router.get('/admin/add-categories', (req,res,next)=>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	res.render('admin/add_categories');
 });
 
 router.get('/admin/add-post', (req,res,next)=>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let query = "SELECT `id`,`judul` FROM `series` where `status` = 2";
 	db.query(query,(err,result,field)=>{
 		if(result.length){
@@ -43,6 +68,10 @@ router.get('/admin/add-post', (req,res,next)=>{
 
 
 router.get('/admin/list-user', (req,res,next) =>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let query = "SELECT * FROM `user`";
 	db.query(query,(err,result,field) =>{
 		if(!err){
@@ -57,6 +86,10 @@ router.get('/admin/list-user', (req,res,next) =>{
 
 
 router.get('/admin/list-series', (req,res,next) =>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let query = "SELECT (SELECT count(id) FROM post WHERE post.sid = series.id) as jumlah, series.id,series.judul, series.`status`, categories.nama FROM series , categories WHERE series.cid = categories.id ORDER BY jumlah DESC, status ASC";
 	db.query(query,(err,result,field) =>{
 	console.log(result);
@@ -70,6 +103,10 @@ router.get('/admin/list-series', (req,res,next) =>{
 
 
 router.get('/admin/manage-user', (req,res,next) =>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let query = "SELECT * FROM `user`";
 	db.query(query,(err,result,field) =>{
 		if(!err){
@@ -81,6 +118,10 @@ router.get('/admin/manage-user', (req,res,next) =>{
 });
 
 router.get('/admin/post-list/(:id)',(req,res,next) =>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let id = req.params.id;
 	let query = "SELECT * FROM `post` WHERE `sid` = ?";
 	db.query(query,id,(err,result,field) =>{
@@ -94,6 +135,10 @@ router.get('/admin/post-list/(:id)',(req,res,next) =>{
 
 
 router.get('/admin/manage-series', (req,res,next) =>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let query = "SELECT (SELECT count(id) FROM post WHERE post.sid = series.id) as jumlah, series.id,series.judul, series.`status`, categories.nama FROM series , categories WHERE series.cid = categories.id ORDER BY jumlah DESC, status ASC";
 	db.query(query,(err,result,field) =>{
 		if(!err){
@@ -106,6 +151,10 @@ router.get('/admin/manage-series', (req,res,next) =>{
 
 
 router.get('/admin/edit-series/(:id)', (req,res,next) =>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let id = req.params.id;
 	let query = "SELECT series.id, series.judul, series.tags, series.deskripsi, categories.nama FROM series , categories WHERE series.cid = categories.id and series.id = ?";
 	db.query(query,id,(err,result,field) => {
@@ -135,6 +184,10 @@ router.get('/admin/edit-series/(:id)', (req,res,next) =>{
 });
 
 router.get('/admin/manage-post/(:id)',(req,res,next) =>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let id = req.params.id;
 	let query = "SELECT * FROM `post` WHERE `sid` = ?";
 	db.query(query,id,(err,result,field) =>{
@@ -147,6 +200,10 @@ router.get('/admin/manage-post/(:id)',(req,res,next) =>{
 });
 
 router.get('/admin/edit-post/(:id)', (req,res,next) =>{
+	if(typeof req.session.admin == "undefined"){
+		res.redirect('/callestasia_auth');
+		return false;
+	}
 	let id = req.params.id;
 	let query = "SELECT series.judul AS series, post.id, post.sid, post.judul, post.tag, post.deskripsi, post.url FROM series , post WHERE post.sid = series.id AND post.id = ?;"
 	db.query(query,id,(err,result,field) =>{
@@ -172,6 +229,12 @@ router.get('/admin/edit-post/(:id)', (req,res,next) =>{
 			}
 		}
 	});
+});
+
+
+router.get('/admin/logout', (req,res,next) =>{
+	req.session.destroy();
+	res.redirect('/callestasia_auth');
 });
 
 module.exports = router;

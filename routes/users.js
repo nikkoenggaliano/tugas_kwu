@@ -91,6 +91,13 @@ router.post('/login', (req,res,next) => {
 	let email = req.body.email;
 	let pass  = req.body.pass;
 
+	if(typeof email == "undefined" || typeof pass == "undefined"){
+		req.flash('type', 'error');
+		req.flash('message', 'Maaf email/username telah terpakai!');
+		res.redirect('/auth');
+		return false;
+	}
+
 	let d = new Date();
 	let tahun = d.getFullYear();
 	let bulan = String(d.getMonth() + 1).padStart(2, '0');
