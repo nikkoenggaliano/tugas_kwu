@@ -17,6 +17,26 @@ var sbulan = {
 	'12':'Desember'
 };
 
+function retDate(){
+	let d = new Date();
+	let tahun = d.getFullYear();
+	let bulan = String(d.getMonth() + 1).padStart(2, '0');
+	let tanggal =  String(d.getDate()).padStart(2, '0');
+	let jam     = d.getHours();
+	let menit   = d.getMinutes();
+	let detik   = d.getSeconds();
+
+	let det = tanggal+'-'+sbulan[bulan]+'-'+tahun;
+	let detail = jam+':'+menit+':'+detik;
+	console.log(detail);
+	let jdate = {
+		"tanggal":det,
+		"jam":detail
+	};
+	let fjdate = JSON.stringify(jdate);
+	return fjdate;
+}
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -98,22 +118,8 @@ router.post('/login', (req,res,next) => {
 		return false;
 	}
 
-	let d = new Date();
-	let tahun = d.getFullYear();
-	let bulan = String(d.getMonth() + 1).padStart(2, '0');
-	let tanggal =  String(d.getDate()).padStart(2, '0');
-	let jam     = d.getHours();
-	let menit   = d.getMinutes();
-	let detik   = d.getSeconds();
 
-	let det = tanggal+'-'+sbulan[bulan]+'-'+tahun;
-	let detail = jam+':'+menit+':'+detik;
-	console.log(detail);
-	let jdate = {
-		"tanggal":det,
-		"jam":detail
-	};
-	let fjdate = JSON.stringify(jdate);
+	let fjdate = retDate();
 
 	if(!valid.validate(email)){
 		req.flash('type', 'error');
@@ -232,22 +238,7 @@ router.get('/logout', (req,res,next)=>{
 		res.redirect('/auth');
 		return false;
 	}
-	let d = new Date();
-	let tahun = d.getFullYear();
-	let bulan = String(d.getMonth() + 1).padStart(2, '0');
-	let tanggal =  String(d.getDate()).padStart(2, '0');
-	let jam     = d.getHours();
-	let menit   = d.getMinutes();
-	let detik   = d.getSeconds();
-
-	let det = tanggal+'-'+sbulan[bulan]+'-'+tahun;
-	let detail = jam+':'+menit+':'+detik;
-	console.log(detail);
-	let jdate = {
-		"tanggal":det,
-		"jam":detail
-	};
-	let fjdate = JSON.stringify(jdate);
+	let fjdate = retDate();
 	let query = "UPDATE `profile` SET `last_login` = ? WHERE `id` = ?";
 	let data = [fjdate,id];
 	db.query(query,data,(err,result,field) =>{
