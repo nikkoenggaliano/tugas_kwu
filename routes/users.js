@@ -82,6 +82,7 @@ router.post('/register', function(req,res,next){
 				let aid = result.insertId;
 				let que = "INSERT INTO `profile` (`id`, `nama`, `instansi`, `last_login`) VALUES (?, ?, NULL, NULL);"
 				db.query(que,[aid,user],(er,resu,fi) =>{
+					console.log(resu);
 					if(resu.affectedRows == 1){
 						req.flash('type', 'success');
 						req.flash('message', 'Selamat Registrasi Berhasil');

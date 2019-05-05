@@ -1,7 +1,8 @@
 {
-  "name": "Aplikasi KWU",
+  "name": "app.js",
   "version": "1.0.0",
   "private": true,
+  "description": "none",
   "scripts": {
     "start": "node app.js"
   },
